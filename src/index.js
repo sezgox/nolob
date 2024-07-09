@@ -1,17 +1,15 @@
 import cors from 'cors';
+import { config } from 'dotenv';
 import express, { json } from 'express';
-
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import { projectsRouter } from './routes/projects.js';
 import { usersRouter } from './routes/users.js';
 
 
-
+config();
 
 const app = express();
-process.loadEnvFile('.env');
 
 const PORT = process.env.PORT ?? 3003;
 

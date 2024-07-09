@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(json({ limit: '50mb' }));
 app.use(cors({
-    origin: ['https://7q8hd2bw-4200.uks1.devtunnels.ms','http://localhost:4200'],
+    origin: ['https://7q8hd2bw-4200.uks1.devtunnels.ms','http://localhost:4200','https://sunny-douhua-617ead.netlify.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));

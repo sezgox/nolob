@@ -18,7 +18,7 @@
       ],
       "id": "7a0393a8-844b-4384-b9c3-d47d6bc07d16",
       "media": {
-        "mediaPath": "http://localhost:3002/uploads/7a0393a8-844b-4384-b9c3-d47d6bc07d16/",
+        "mediaPath": "https://nolob.onrender.com/uploads/7a0393a8-844b-4384-b9c3-d47d6bc07d16/",
         "images": [
           "fallout-4.jpg",
           "sm.webp",
@@ -49,7 +49,7 @@
       "skills": [],
       "id": "128ae415-ada4-482d-a99f-fffd32d36348",
       "media": {
-        "mediaPath": "http://localhost:3002/uploads/128ae415-ada4-482d-a99f-fffd32d36348/",
+        "mediaPath": "https://nolob.onrender.com/uploads/128ae415-ada4-482d-a99f-fffd32d36348/",
         "images": [
           "theDruid.webp"
         ]
@@ -75,7 +75,7 @@
       ],
       "id": "2f54f1a5-97db-429b-b00b-a1bae1e77e43",
       "media": {
-        "mediaPath": "http://localhost:3002/uploads/2f54f1a5-97db-429b-b00b-a1bae1e77e43/",
+        "mediaPath": "https://nolob.onrender.com/uploads/2f54f1a5-97db-429b-b00b-a1bae1e77e43/",
         "images": [
           "Largo.jpg",
           "0.jpg",

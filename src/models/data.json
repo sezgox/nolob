@@ -1,0 +1,93 @@
+{
+  "projects": [
+    {
+      "title": "Ajio Ajio",
+      "description": "mdsand \nsd mklsadnsald sadsjaldnsa kdljasnd ljask,dn salk d\nasd njknasl \ndj salkdsa",
+      "genre": "Klk manin",
+      "links": [
+        {
+          "name": "Youtube",
+          "url": "https://youtube.com"
+        }
+      ],
+      "responsabilities": [],
+      "skills": [
+        "Caca",
+        "Culo",
+        "Pedo pis"
+      ],
+      "id": "7a0393a8-844b-4384-b9c3-d47d6bc07d16",
+      "media": {
+        "mediaPath": "http://localhost:3002/uploads/7a0393a8-844b-4384-b9c3-d47d6bc07d16/",
+        "images": [
+          "fallout-4.jpg",
+          "sm.webp",
+          "s.webp",
+          "go1.gif",
+          "ot2.webp",
+          "pg2.gif",
+          "pg1.gif"
+        ]
+      },
+      "date": "2024-05-15"
+    },
+    {
+      "title": "The Druid",
+      "description": "The Druid is my final degree project made with other classmates. This is a roguelike with an unique upgrade system, based on elements and bodyparts, giving numerous choices for the players. The idea with the game is to bring players an exciting and challenging experience, as well as an stunning pixel art mixed with an interesting story.\n\nThe game was released on Steam on May 24. It has more than 10000 downloads and over 70k additions to library. It has also been posted on some online magazines like Vandal.",
+      "genre": "Roguelike Celtic Fantasy Game",
+      "links": [
+        {
+          "name": "Youtube",
+          "url": "https://youtube.com"
+        }
+      ],
+      "responsabilities": [
+        "Lead Desginer",
+        "Programmer",
+        "Producer"
+      ],
+      "skills": [],
+      "id": "128ae415-ada4-482d-a99f-fffd32d36348",
+      "media": {
+        "mediaPath": "http://localhost:3002/uploads/128ae415-ada4-482d-a99f-fffd32d36348/",
+        "images": [
+          "theDruid.webp"
+        ]
+      },
+      "date": "2024-07-06"
+    },
+    {
+      "title": "OnTime!",
+      "description": "\"OnTime!\" is an engaging and challenging mobile game that puts players' timing skills to the ultimate test. In this fast-paced and addictive experience, players must stop the clock at the exact moment to achieve precision and accuracy like never before.\n\nKey Highlights:\n-Test Your Precision: With \"OnTime!\", players can hone their timing skills and push themselves to achieve unparalleled precision.\n-Addictive Gameplay: The simple yet challenging gameplay of \"OnTime!\" ensures that players keep coming back for more.\n-Compete Globally: Climb the leaderboards and challenge players from around the world to become the ultimate timing master.\n",
+      "genre": "Casual Mobile Game",
+      "links": [
+        {
+          "name": "Youtube",
+          "url": "https://youtube.com"
+        }
+      ],
+      "responsabilities": [],
+      "skills": [
+        "Android API",
+        "Google Play Console Development",
+        "Monetization: Unity In-App Purchases",
+        "Cloud services"
+      ],
+      "id": "2f54f1a5-97db-429b-b00b-a1bae1e77e43",
+      "media": {
+        "mediaPath": "http://localhost:3002/uploads/2f54f1a5-97db-429b-b00b-a1bae1e77e43/",
+        "images": [
+          "Largo.jpg",
+          "0.jpg",
+          "1.jpg",
+          "2.jpg"
+        ]
+      },
+      "date": "2024-07-31"
+    }
+  ],
+  "user": {
+    "username": "klk",
+    "password": "$2b$10$Cod/K.zZCumruNy2uiSKieOss/LpjAPOmb29NOTFt6ihtpMa2uI8K"
+  }
+}

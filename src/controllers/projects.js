@@ -6,7 +6,7 @@ const datafile = new Datafile();
 const mediaPath = 'http://localhost:3002/uploads/'; */
 
 
-const mediaPath = 'https://nolob.onrender.com/';
+const mediaPath = 'https://nolob.onrender.com/uploads/';
 
 export const addProject = (req,res) => {
     if(req.body.project){

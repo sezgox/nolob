@@ -49,3 +49,6 @@ jspm_packages/
 # Temporary files
 tmp/
 temp/
+
+
+./src/models/data.json

@@ -61,7 +61,7 @@ export class Datafile {
                 return new Date(a.date) - new Date(b.date);
             });
             this.writeJsonFile(this.filePath, data);
-            return { data: 'Proyecto añadido', success: true };
+            return { data: {project,msg:'Proyecto añadido'}, success: true };
         } else {
             return { data: 'Error añadiendo proyecto', success: false };
         }

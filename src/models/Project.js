@@ -46,7 +46,7 @@ const projectSchema = new Schema({
     required: true
   },
   date: {
-    type: Date,
+    type: String,
     required: true
   }
 }, { timestamps: true, collection: 'noloprojects' });

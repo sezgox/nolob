@@ -12,9 +12,11 @@ export const addProject = async (req,res) => {
         try {
             const uploadPromises = req.files.map(file => {
                 return new Promise((resolve, reject) => {
-                    const stream = cloudinary.v2.uploader.upload_stream({ 
+                    const stream = cloudinary.v2.uploader.upload_stream({
                         resource_type: 'auto',
-                        public_id: file.originalname.split('.')[0]
+                        public_id: file.originalname.split('.')[0],
+                        fetch_format: 'auto',
+                        quality: 'auto'
                     }, (error, result) => {
                         if (error) {
                             reject(error); // Rechazar la promesa si hay un error
@@ -79,8 +81,8 @@ export const removeProject = async (req,res) => {
 
         const deletePromises = project.media.map(imageUrl => {
             // Extraer el public_id de la URL de Cloudinary
-            const publicId = imageUrl.split('/').pop().split('.')[0]; // Obtén el public_id de la URL
-            return cloudinary.v2.uploader.destroy(publicId, { resource_type: 'image' }); // Cambia 'image' si es necesario
+            const publicId = imageUrl.split('/').pop().split('.')[0]; 
+            return cloudinary.v2.uploader.destroy(publicId, { resource_type: 'auto' });
         });
 
         // Esperar a que todas las promesas de eliminación se resuelvan

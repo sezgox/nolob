@@ -1,34 +1,39 @@
 import bcrypt from 'bcrypt';
 import jswt from 'jsonwebtoken';
-import { Datafile } from '../models/datafile.js';
+import User from '../models/User.js';
 
-const userModel = new Datafile();
 
-export const login = async (req,res) => {
-    const {username,password} = req.body;
+export const login = async (req, res) => {
+    const { username, password } = req.body;
+    console.log(username)
+
     if (!username || !password) {
-        return res.status(400).json({ data: 'Username and password are required',success:false });
+        return res.status(400).json({ data: 'Username and password are required', success: false });
     }
+
     try {
-        //const user = await userModel.getUser(username);
-        const user = userModel.getUser()
-        if(!user.success){
-            res.json(user);
-        }else{
-            const hashedPassword = user.data.password;
-            const passwordCorrect = await bcrypt.compare(password, hashedPassword);
-            const token = jswt.sign({
-                username: username
-            },
-            process.env.AUTH_TOKEN_KEY ?? 'klkmanito');
-            passwordCorrect ? res.json({data:token,success:true}) : res.json({data:'Username or password incorrect',success:false});
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(401).json({ data: 'Username or password incorrect', success: false });
+        }
+
+        const passwordCorrect = await bcrypt.compare(password, user.password);
+
+        if (passwordCorrect) {
+            const token = jswt.sign(
+                { username: user.username },
+                process.env.AUTH_TOKEN_KEY ?? 'klkmanito',
+                { expiresIn: '1h' } // Opcional: Configura la expiración del token
+            );
+            res.json({ data: token, success: true });
+        } else {
+            res.status(401).json({ data: 'Username or password incorrect', success: false });
         }
     } catch (error) {
-        console.log(error)
-        res.json('Unvalid data')
+        console.error(error);
+        res.status(500).json({ data: 'Something went wrong... Try again later.', success: false });
     }
-}
-
+};
 
 export const validateToken = async(req,res,next) => {
     const bearer = req.headers.authorization;

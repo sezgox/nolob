@@ -1,6 +1,7 @@
 import cors from 'cors';
 import { config } from 'dotenv';
 import express, { json } from 'express';
+import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { projectsRouter } from './routes/projects.js';
@@ -14,6 +15,7 @@ const app = express();
 const PORT = process.env.PORT ?? 3003;
 
 const __filename = fileURLToPath(import.meta.url);
+
 // Obtén el directorio del archivo
 const __dirname = path.dirname(__filename);
 
@@ -36,6 +38,13 @@ app.use((req,res) => {
     res.status(404).send('<h1>404 Not Found</h1>')
 });
 
+/* SERVER LISTENING */
 app.listen(PORT, () => {
     console.log('Listening on port', PORT)
 });
+
+
+/* DB CONNECTION */
+mongoose.connect(process.env.db)
+.then(() => console.log('MongoDB connected...'))
+.catch(err => console.error(err));

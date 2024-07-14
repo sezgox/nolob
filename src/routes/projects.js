@@ -9,5 +9,5 @@ export const projectsRouter = Router();
 projectsRouter.post('/', validateToken, upload.array('media',10), addProject);
 projectsRouter.get('/', getProjects);
 projectsRouter.get('/:name', getProjectByName);
-projectsRouter.put('/',validateToken, upload.array('media',10), editProject);
+projectsRouter.put('/:id',validateToken, upload.array('media',10), editProject);
 projectsRouter.delete('/:id', validateToken, removeProject)

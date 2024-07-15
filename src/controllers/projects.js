@@ -52,7 +52,7 @@ export const addProject = async (req,res) => {
 export const getProjects = async (req,res) => {
 
     try {
-        const projects = await Project.find();
+        const projects = await Project.find().sort({ date: -1 });
         res.json({ success: true, data: projects });
     } catch (error) {
         res.status(500).json({ success: false, message: 'Error al obtener proyectos', error });

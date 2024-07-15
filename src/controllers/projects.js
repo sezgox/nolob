@@ -16,7 +16,7 @@ export const addProject = async (req,res) => {
                 const uploadConfig = {
                     resource_type: 'auto',
                     public_id: file.originalname.split('.')[0],
-                    chunk_size: 6000000,
+                    chunk_size: 60000000,
                     format: 'webp',
                     transformation: [
                         {quality: "auto"},
@@ -120,6 +120,7 @@ export const editProject = async (req,res) => {
                     resource_type: 'auto',
                     public_id: file.originalname.split('.')[0],
                     format: 'webp',
+                    chunk_size: 60000000,
                     transformation: [
                         {quality: "auto"},
                         {fetch_format: "webp"}

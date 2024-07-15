@@ -16,11 +16,12 @@ export const addProject = async (req,res) => {
                 const uploadConfig = {
                     resource_type: 'auto',
                     public_id: file.originalname.split('.')[0],
+                    chunk_size: 104857600,
                     format: 'webp',
                     transformation: [
                         {quality: "auto"},
                         {fetch_format: "webp"}
-                    ]
+                    ],
                 };
                 return new Promise((resolve, reject) => {
                     const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {

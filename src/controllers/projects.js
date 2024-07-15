@@ -16,9 +16,10 @@ export const addProject = async (req,res) => {
                 const uploadConfig = {
                     resource_type: 'auto',
                     public_id: file.originalname.split('.')[0],
+                    format: 'webp',
                     transformation: [
                         {quality: "auto"},
-                        {fetch_format: "auto"}
+                        {fetch_format: "webp"}
                     ]
                 };
                 return new Promise((resolve, reject) => {
@@ -117,9 +118,10 @@ export const editProject = async (req,res) => {
                 const uploadConfig = {
                     resource_type: 'auto',
                     public_id: file.originalname.split('.')[0],
+                    format: 'webp',
                     transformation: [
                         {quality: "auto"},
-                        {fetch_format: "auto"}
+                        {fetch_format: "webp"}
                     ]
                 };
                 return new Promise((resolve, reject) => {

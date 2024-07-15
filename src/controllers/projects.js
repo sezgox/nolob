@@ -2,14 +2,7 @@ import cloudinary from '../client/cloudinaryConfig.js';
 import Project from "../models/Project.js";
 
 
-const uploadConfig = {
-    resource_type: 'auto',
-    public_id: file.originalname.split('.')[0],
-    transformation: [
-        {quality: "auto"},
-        {fetch_format: "auto"}
-    ]
-};
+
 
 export const addProject = async (req,res) => {
     if(req.body.project){
@@ -20,6 +13,14 @@ export const addProject = async (req,res) => {
         project.media = []
         try {
             const uploadPromises = req.files.map(file => {
+                const uploadConfig = {
+                    resource_type: 'auto',
+                    public_id: file.originalname.split('.')[0],
+                    transformation: [
+                        {quality: "auto"},
+                        {fetch_format: "auto"}
+                    ]
+                };
                 return new Promise((resolve, reject) => {
                     const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
                         if (error) {
@@ -113,6 +114,14 @@ export const editProject = async (req,res) => {
             }
             /* SUBIR IMAGENES */
             const uploadPromises = req.files.map(file => {
+                const uploadConfig = {
+                    resource_type: 'auto',
+                    public_id: file.originalname.split('.')[0],
+                    transformation: [
+                        {quality: "auto"},
+                        {fetch_format: "auto"}
+                    ]
+                };
                 return new Promise((resolve, reject) => {
                     const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
                         if (error) {

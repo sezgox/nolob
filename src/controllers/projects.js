@@ -2,6 +2,15 @@ import cloudinary from '../client/cloudinaryConfig.js';
 import Project from "../models/Project.js";
 
 
+const uploadConfig = {
+    resource_type: 'auto',
+    public_id: file.originalname.split('.')[0],
+    transformation: [
+        {quality: "auto"},
+        {fetch_format: "auto"}
+    ]
+};
+
 export const addProject = async (req,res) => {
     if(req.body.project){
         const project = JSON.parse(req.body.project);
@@ -12,12 +21,7 @@ export const addProject = async (req,res) => {
         try {
             const uploadPromises = req.files.map(file => {
                 return new Promise((resolve, reject) => {
-                    const stream = cloudinary.v2.uploader.upload_stream({
-                        resource_type: 'auto',
-                        public_id: file.originalname.split('.')[0],
-                        fetch_format: 'auto',
-                        quality: 'auto'
-                    }, (error, result) => {
+                    const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
                         if (error) {
                             reject(error); // Rechazar la promesa si hay un error
                         } else {
@@ -110,15 +114,10 @@ export const editProject = async (req,res) => {
             /* SUBIR IMAGENES */
             const uploadPromises = req.files.map(file => {
                 return new Promise((resolve, reject) => {
-                    const stream = cloudinary.v2.uploader.upload_stream({ 
-                        resource_type: 'auto',
-                        public_id: file.originalname.split('.')[0], // Usar el nombre del archivo sin la extensión
-                        overwrite: true // Sobrescribir si es necesario
-                    }, (error, result) => {
+                    const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
                         if (error) {
                             reject(error);
                         } else {
-                            console.log(existingProject.media)
                             resolve(result.secure_url); // Resolver la promesa con la URL de la imagen
                         }
                     });

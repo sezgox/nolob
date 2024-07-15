@@ -167,6 +167,7 @@ export const editProject = async (req,res) => {
             existingProject.links = project.links;
             existingProject.responsabilities = project.responsabilities;
             existingProject.skills = project.skills;
+            existingProject.date = project.date;
             existingProject.media = existingProject.media.filter(url => !imagesToDelete.includes(url.split('/').pop())); // Actualizar media
             console.log(existingProject.media)
 

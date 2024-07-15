@@ -89,7 +89,7 @@ export const removeProject = async (req,res) => {
         const deletePromises = project.media.map(imageUrl => {
             // Extraer el public_id de la URL de Cloudinary
             const publicId = imageUrl.split('/').pop().split('.')[0]; 
-            return cloudinary.v2.uploader.destroy(publicId, { resource_type: 'auto' });
+            return cloudinary.v2.uploader.destroy(publicId, { resource_type: 'image' });
         });
 
         // Esperar a que todas las promesas de eliminación se resuelvan

@@ -3,6 +3,29 @@ import Project from "../models/Project.js";
 
 
 
+function uploadImage(file) {
+    const uploadConfig = {
+        resource_type: 'auto',
+        public_id: file.originalname.split('.')[0],
+        overwrite: true,
+        chunk_size: 100000000,
+        transformation: [
+            { quality: "auto" },
+            { fetch_format: "webp" }
+        ]
+    };
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(result.secure_url);
+            }
+        });
+        stream.end(file.buffer);
+    });
+}
+
 
 export const addProject = async (req,res) => {
     if(req.body.project){
@@ -12,32 +35,10 @@ export const addProject = async (req,res) => {
         }
         project.media = []
         try {
-            const uploadPromises = req.files.map(file => {
-                const uploadConfig = {
-                    resource_type: 'auto',
-                    public_id: file.originalname.split('.')[0],
-                    overwrite: true,
-                    chunk_size: 100000000,
-                    transformation: [
-                        {quality: "auto"},
-                        {fetch_format: "webp"}
-                    ],
-                };
-                return new Promise((resolve, reject) => {
-                    const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
-                        if (error) {
-                            reject(error); // Rechazar la promesa si hay un error
-                        } else {
-                            project.media.push(result.secure_url); // Agregar la URL al proyecto
-                            resolve(); // Resolver la promesa cuando se complete la carga
-                        }
-                    });
-                    stream.end(file.buffer); // Pasar el buffer de la imagen
-                });
-            });
+            const uploadPromises = req.files.map(file => uploadImage(file));
 
             // Esperar a que todas las promesas de carga se resuelvan
-            await Promise.all(uploadPromises);
+            project.media = await Promise.all(uploadPromises);
             const newProject = new Project(project);
             const savedProject = await newProject.save();
             res.json( {data: {savedProject,msg:'Proyecto añadido'}, success: true} )
@@ -115,30 +116,16 @@ export const editProject = async (req,res) => {
                 return res.status(404).json({ data: 'Project not found', success: false });
             }
             /* SUBIR IMAGENES */
-            const uploadPromises = req.files.map(file => {
-                const uploadConfig = {
-                    resource_type: 'auto',
-                    public_id: file.originalname.split('.')[0],
-                    overwrite: true,
-                    chunk_size: 100000000,
-                    transformation: [
-                        {quality: "auto"},
-                        {fetch_format: "webp"}
-                    ]
-                };
-                return new Promise((resolve, reject) => {
-                    const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
-                        if (error) {
-                            reject(error);
-                        } else {
-                            resolve(result.secure_url); // Resolver la promesa con la URL de la imagen
-                        }
-                    });
-                    stream.end(file.buffer);
-                });
-            });
+            const uploadPromises = req.files.map(file => uploadImage(file));
 
             const newImageUrls = await Promise.all(uploadPromises);
+
+            for(let key in project){
+                if (existingProject.hasOwnProperty(key)) {
+                    existingProject[key] = project[key]
+                }
+            }
+
             existingProject.media.push(...newImageUrls);
             const existingImageNames = existingProject.media.map(url => {
                 const parts = url.split('/');
@@ -147,29 +134,23 @@ export const editProject = async (req,res) => {
 
             let imagesToDelete = [];
             let conserve = [];
+
             for(let img of project.media){
                 conserve.push(img.split('/')[img.split('/').length-1])
             }
+
             for(let name of existingImageNames){
                 if(!conserve.includes(name)){
                     imagesToDelete.push(name)
                 }
             }
-            console.log('A BORRAR: ' + imagesToDelete)
             const deletePromises = imagesToDelete.map(imageName => {
                 const public_id = imageName.split('.')[0]; // Obtener el public_id (nombre sin extensión)
                 return cloudinary.v2.uploader.destroy(public_id);
             });
+
             await Promise.all(deletePromises);
-            existingProject.title = project.title;
-            existingProject.description = project.description;
-            existingProject.genre = project.genre;
-            existingProject.links = project.links;
-            existingProject.responsabilities = project.responsabilities;
-            existingProject.skills = project.skills;
-            existingProject.date = project.date;
             existingProject.media = existingProject.media.filter(url => !imagesToDelete.includes(url.split('/').pop())); // Actualizar media
-            console.log(existingProject.media)
 
             await existingProject.save();
             res.json({ data: { existingProject, msg: 'Project updated successfully' }, success: true });

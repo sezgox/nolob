@@ -121,9 +121,7 @@ export const editProject = async (req,res) => {
             const newImageUrls = await Promise.all(uploadPromises);
 
             for(let key in project){
-                if (existingProject.hasOwnProperty(key)) {
-                    existingProject[key] = project[key]
-                }
+                existingProject[key] = project[key]
             }
 
             existingProject.media.push(...newImageUrls);

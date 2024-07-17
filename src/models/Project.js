@@ -45,6 +45,10 @@ const projectSchema = new Schema({
     type: [linkSchema],
     required: true
   },
+  others:{
+    type: [String],
+    required: false
+  },
   date: {
     type: String,
     required: true

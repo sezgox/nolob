@@ -49,6 +49,10 @@ const projectSchema = new Schema({
     type: [String],
     required: false
   },
+  file:{
+    type: String,
+    required: false
+  },
   date: {
     type: String,
     required: true

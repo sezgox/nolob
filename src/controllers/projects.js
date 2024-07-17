@@ -3,16 +3,11 @@ import Project from "../models/Project.js";
 
 
 
-function uploadImage(file) {
+function uploadFile(file) {
     const uploadConfig = {
         resource_type: 'auto',
         public_id: file.originalname.split('.')[0],
-        overwrite: true,
-        chunk_size: 100000000,
-        transformation: [
-            { quality: "auto" },
-            { fetch_format: "webp" }
-        ]
+        overwrite: true
     };
     return new Promise((resolve, reject) => {
         const stream = cloudinary.v2.uploader.upload_stream(uploadConfig, (error, result) => {
@@ -35,15 +30,19 @@ export const addProject = async (req,res) => {
         }
         project.media = []
         try {
-            const uploadPromises = req.files.map(file => uploadImage(file));
-
-            // Esperar a que todas las promesas de carga se resuelvan
+            const uploadPromises = req.files.media.map(file => uploadFile(file));
             project.media = await Promise.all(uploadPromises);
+
+            if(req.files.files){
+                const uploadFilePromise = uploadFile(req.files.files[0]);
+                project.file = await uploadFilePromise;
+            }
+
             const newProject = new Project(project);
             const savedProject = await newProject.save();
             res.json( {data: {savedProject,msg:'Proyecto añadido'}, success: true} )
         } catch (error) {
-            res.json({data:'Something went wrong... Try again later.', success:false})
+            res.json({data:{msg: 'Something went wrong... Try again later.',error: req.files}, success:false})
             console.log(error)
         }
     }else{
@@ -87,14 +86,19 @@ export const removeProject = async (req,res) => {
             return res.status(404).json({ success: false, message: 'Project not found' });
         }
 
-        const deletePromises = project.media.map(imageUrl => {
+        const deleteImagePromises = project.media.map(imageUrl => {
             // Extraer el public_id de la URL de Cloudinary
             const publicId = imageUrl.split('/').pop().split('.')[0]; 
             return cloudinary.v2.uploader.destroy(publicId, { resource_type: 'image' });
         });
 
-        // Esperar a que todas las promesas de eliminación se resuelvan
-        await Promise.all(deletePromises);
+        let deleteFilePromise;
+        if(project.file){
+            const filePublicId = project.file.split('/').pop().split('.')[0];
+            deleteFilePromise = cloudinary.v2.uploader.destroy(filePublicId, { resource_type: 'raw' });
+        }
+
+        await Promise.all([...deleteImagePromises, deleteFilePromise]);
 
         res.json({ success: true, message: 'Project successfully deleted' });
     } catch (error) {
@@ -116,15 +120,23 @@ export const editProject = async (req,res) => {
                 return res.status(404).json({ data: 'Project not found', success: false });
             }
             /* SUBIR IMAGENES */
-            const uploadPromises = req.files.map(file => uploadImage(file));
-
-            const newImageUrls = await Promise.all(uploadPromises);
-
+            
             for(let key in project){
                 existingProject[key] = project[key]
             }
 
-            existingProject.media.push(...newImageUrls);
+            let  newImageUrls;
+            if(req.files.media){
+                const uploadPromises = req.files.media.map(file => uploadFile(file));
+                newImageUrls = await Promise.all(uploadPromises);
+                existingProject.media.push(...newImageUrls);
+            }
+
+            if(req.files.files){
+                const uploadFilePromise = uploadFile(req.files.files[0]);
+                existingProject.file = await uploadFilePromise;
+            }
+
             const existingImageNames = existingProject.media.map(url => {
                 const parts = url.split('/');
                 return parts[parts.length - 1]; // Obtener solo el nombre del archivo

@@ -25,7 +25,7 @@ function uploadFile(file) {
 export const addProject = async (req,res) => {
     if(req.body.project){
         const project = JSON.parse(req.body.project);
-        if(!project.title || !project.description || !project.genre || !project.links ||  !req.files){
+        if(!project.title || !project.date){
             return res.json({data:'Unvalid data',success:false})
         }
         project.media = []

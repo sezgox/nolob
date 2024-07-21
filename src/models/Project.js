@@ -23,11 +23,11 @@ const projectSchema = new Schema({
   },
   description: {
     type: String,
-    required: true
+    required: false
   },
   genre: {
     type: String,
-    required: true
+    required: false
   },
   responsabilities: {
     type: [String],
@@ -35,15 +35,15 @@ const projectSchema = new Schema({
   },
   skills: {
     type: [String],
-    default: []
+    default: [],
   },
   media: {
     type: [String],
-    required: true
+    required: false
   },
   links: {
     type: [linkSchema],
-    required: true
+    required: false
   },
   others:{
     type: [String],
